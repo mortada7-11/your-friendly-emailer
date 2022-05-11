@@ -1,5 +1,6 @@
 import smtplib
 import ssl
+from datetime import datetime
 from getpass import getpass
 
 smtpServer = "smtp.gmail.com"
@@ -22,33 +23,43 @@ def tlsMode():
 
 
 if __name__ == '__main__':
-    senderEmail = input("Email :")
-    password = getpass("Password :")
     try:
         menuRes = '0'
+        server = tlsMode()
+        logRes = None
+        senderEmail = ""
+        while not logRes:
+            senderEmail = input("Email :")
+            password = getpass("Password :")
+            try:
+                logRes = server.login(senderEmail, password)
+            except Exception as e:
+                print("\nUsername and Password does not match.\n")
+        print("\nLogged in successfully.\n")
         while menuRes != '2':
-            server = sslMode()
-            server.login(senderEmail, password)
-            print("Logged in successfully.")
             menuRes = input("""\
 1 ==> Send an email.
 2 ==> Quit.
-""")
+
+response <== """)
             match menuRes:
                 case '1':
-                    receiverEmail = input("Recipient :")
+                    receiverEmail = input("\nRecipient :")
                     subject = input("Subject :")
                     message = f"""\
-Subject :{subject}
-                    
-{input('Message :')}
-"""
-                    server.sendmail(senderEmail, receiverEmail, message)
-                    print("Your message has been sent successfully.")
+From: {senderEmail}
+To: {receiverEmail}
+Subject: {subject}
+Date: {datetime.now().strftime( "%d/%m/%Y %H:%M" )}
 
+{input('Message: ')}\n"""
+                    server.sendmail(senderEmail, receiverEmail, message)
+                    print("\nYour message has been sent successfully.\n")
+                case '2':
+                    pass
                 case _:
-                    menuRes = input("please choose either 1 or 2.\n\n")
-        print("Quiting.")
+                    print("\nplease choose either 1 or 2.\n")
+        print("\nQuiting.")
     except Exception as e:
         print(e)
     finally:
