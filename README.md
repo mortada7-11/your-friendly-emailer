@@ -5,7 +5,7 @@ this will be a script for sending HTML emails in bulk using SMTP and MIME.
 
 <h3>Notice :</h3>
 As it stands right now, the script only support Gmail accounts.
-Since the support only Username/Password pair login, you are required to allow less secure apps in your account :
+Since it support only Username/Password pair login, you are required to allow less secure apps in your account :
       1. Go to your Google account settings.
       2. Search for "Less secure apps" in the search box.
       3. Turn "Allow less secure apps" on.
